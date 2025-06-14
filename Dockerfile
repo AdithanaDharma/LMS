@@ -14,5 +14,10 @@ COPY . /var/www/html/
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
-# Expose port 80
+# Buat direktori moodledata dengan permission yang tepat
+RUN mkdir /var/www/moodledata && \
+    chown -R www-data:www-data /var/www/moodledata && \
+    chmod -R 755 /var/www/moodledata
+
+# Expose port
 EXPOSE 80
