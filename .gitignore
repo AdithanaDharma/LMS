@@ -60,3 +60,13 @@ phpcs.xml
 jsconfig.json
 UPGRADING-CURRENT.md
 .phpunit.cache
+
+# Folder Moodle runtime
+/moodledata/
+
+# Install logs
+/installlog.txt
+/cli_install.log
+
+# Deployment-related
+/deploy.yaml
