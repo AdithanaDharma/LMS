@@ -20,17 +20,18 @@ RUN apt-get update && apt-get install -y \
     unzip \
     mariadb-client \
     vim \
-    curl \
-    && docker-php-ext-install \
+    curl && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install \
+        gd \
         mysqli \
         zip \
         intl \
         soap \
         exif \
         opcache \
-        pdo_mysql \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd
+        pdo_mysql && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Aktifkan mod_rewrite untuk Moodle
 RUN a2enmod rewrite
@@ -38,7 +39,7 @@ RUN a2enmod rewrite
 # Tambahkan pengaturan PHP agar sesuai dengan kebutuhan Moodle
 COPY moodle-php.ini /usr/local/etc/php/conf.d/moodle.ini
 
-# Copy Moodle files ke Apache root
+# Copy Moodle source ke dalam container
 COPY . /var/www/html/
 
 # Set permission Moodle
@@ -49,5 +50,4 @@ RUN mkdir -p /var/www/moodledata && \
     chown -R www-data:www-data /var/www/moodledata && \
     chmod -R 755 /var/www/moodledata
 
-# Expose port
 EXPOSE 80
